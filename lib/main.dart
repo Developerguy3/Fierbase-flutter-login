@@ -1,10 +1,10 @@
 import 'package:fierbase_login/home.dart';
+import 'package:fierbase_login/loginpage%20copy.dart';
 import 'package:fierbase_login/loginpage.dart';
 import 'package:fierbase_login/newpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Newpage(),
+      home: Loginpagecopy(),
     );
   }
 }
@@ -50,12 +50,7 @@ class Lendpage extends StatelessWidget {
                   }
                 }
                 return Scaffold(
-                  body: Center(
-                    child: SpinKitRotatingCircle(
-                      color: Colors.blue,
-                      size: 50.0,
-                    ),
-                  ),
+                  body: Center(child: Text("hello")),
                 );
               },
             );

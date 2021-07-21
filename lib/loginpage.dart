@@ -38,7 +38,7 @@ class _loginpageState extends State<loginpage> {
   Future<void> _createuser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email_, password: _password_);
+          .signInWithEmailAndPassword(email: Email_id, password: Password);
     } on FirebaseAuthException catch (e) {
       print("error: $e");
     } catch (e) {
@@ -46,8 +46,8 @@ class _loginpageState extends State<loginpage> {
     }
   }
 
-  late String _email_;
-  late String _password_;
+  late String Email_id;
+  late String Password;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _loginpageState extends State<loginpage> {
                 children: [
                   TextField(
                     onChanged: (value) {
-                      _email_ = value;
+                      Email_id = value;
                     },
                     decoration: InputDecoration(
                         labelText: 'Email',
@@ -107,7 +107,7 @@ class _loginpageState extends State<loginpage> {
                   ),
                   TextField(
                     onChanged: (value) {
-                      _password_ = value;
+                      Password = value;
                     },
                     decoration: InputDecoration(
                         labelText: 'Password',
