@@ -2,21 +2,69 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 
-class Loginpagecopy extends StatelessWidget {
+class logincopy extends StatefulWidget {
+  const logincopy({Key? key}) : super(key: key);
+
+  @override
+  _logincopyState createState() => _logincopyState();
+}
+
+class _logincopyState extends State<logincopy>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   late String Email_id;
   late String Password;
   bool _isObscure = true;
-
+  bool animationornot = false;
+  bool loginfail;
   final _formKey = GlobalKey<FormState>();
 
   void ontapfunction() {
     _createuser();
   }
 
+  /*Future<void> login() async{
+    final  formState = _formkey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try{
+
+        final FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _username, password: _password)).user;
+        if(!user.uid.isEmpty()){
+         Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
+        }else{
+         setState((){
+           loginfail = true; //loginfail is bool
+          });
+        }
+
+      }catch(e){
+        print(e.message);
+      }
+    }*/
   Future<void> _createuser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: Email_id, password: Password);
+      if (userCredential.user!.uid.isNotEmpty) {
+      } else {
+        setState(() {
+          loginfail = true; //loginfail is bool
+        });
+      }
     } on FirebaseAuthException catch (e) {
       print("error: $e");
     } catch (e) {
@@ -74,8 +122,16 @@ class Loginpagecopy extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                        labelText: "Email id", hintText: "youremail@email.com"),
+                      labelText: "Email id",
+                      hintText: "youremail@email.com",
+                      errorText: loginfail ? "incorrect email id" : null,
+                    ),
                     // The validator receives the text that the user has entered.
+                    onChanged: (value) {
+                      if (_formKey.currentState!.validate()) {
+                        animationornot = true;
+                      }
+                    },
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty && !value.contains("@")) {
@@ -97,7 +153,16 @@ class Loginpagecopy extends StatelessWidget {
                             icon: Icon(_isObscure
                                 ? Icons.visibility
                                 : Icons.visibility_off),
-                            onPressed: null)),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            })),
+                    onChanged: (value) {
+                      if (_formKey.currentState!.validate()) {
+                        animationornot = true;
+                      }
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
@@ -109,7 +174,7 @@ class Loginpagecopy extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 40,
                 ),
                 Container(
                   child: Center(
@@ -118,7 +183,8 @@ class Loginpagecopy extends StatelessWidget {
                       width: 370,
                       text: 'SUBMIT',
                       isReverse: true,
-                      selectedTextColor: Colors.black,
+                      enable: true,
+                      selectedTextColor: Colors.blue,
                       transitionType: TransitionType.CENTER_ROUNDER,
                       textStyle: TextStyle(fontWeight: FontWeight.bold),
                       backgroundColor: Colors.blue,
@@ -127,9 +193,50 @@ class Loginpagecopy extends StatelessWidget {
                       borderWidth: 2,
                       onPress: () {
                         if (_formKey.currentState!.validate()) {
+                          animationornot = true;
                           ontapfunction();
+                        } else {
+                          animationornot = false;
                         }
                       },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: Container(
+                    height: 40,
+                    width: 370,
+                    color: Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.blue,
+                              style: BorderStyle.solid,
+                              width: 1),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: ImageIcon(
+                              AssetImage('logos/gl.png'),
+                              color: Colors.blue,
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              '     Log in with google',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 )

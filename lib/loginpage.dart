@@ -12,6 +12,10 @@ class loginpage extends StatefulWidget {
 class _loginpageState extends State<loginpage> {
   final _formKey = GlobalKey<FormState>();
 
+  late bool wrongPassword;
+
+  late bool wrongEmail;
+
   void popup(String a, String b) {
     Alert(
       context: context,
@@ -40,7 +44,19 @@ class _loginpageState extends State<loginpage> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: Email_id, password: Password);
     } on FirebaseAuthException catch (e) {
-      print("error: $e");
+      if (e.code == 'ERROR_WRONG_PASSWORD') {
+        setState(() {
+          wrongPassword = true;
+        });
+      } else {
+        setState(() {
+          var emailText = 'User doesn\'t exist';
+          var passwordText = 'Please check your email';
+
+          wrongPassword = true;
+          wrongEmail = true;
+        });
+      }
     } catch (e) {
       print("error: $e");
     }

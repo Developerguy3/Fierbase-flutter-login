@@ -1,7 +1,6 @@
 import 'package:fierbase_login/home.dart';
-import 'package:fierbase_login/loginpage%20copy.dart';
 import 'package:fierbase_login/loginpage.dart';
-import 'package:fierbase_login/newpage.dart';
+import 'package:fierbase_login/scrap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Loginpagecopy(),
+      home: logincopy(),
     );
   }
 }
