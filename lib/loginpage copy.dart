@@ -118,7 +118,7 @@ class Loginpagecopy extends StatelessWidget {
                       width: 370,
                       text: 'SUBMIT',
                       isReverse: true,
-                      selectedTextColor: Colors.black,
+                      selectedTextColor: Colors.blue,
                       transitionType: TransitionType.CENTER_ROUNDER,
                       textStyle: TextStyle(fontWeight: FontWeight.bold),
                       backgroundColor: Colors.blue,

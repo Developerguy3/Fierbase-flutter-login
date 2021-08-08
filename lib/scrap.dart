@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 
 class logincopy extends StatefulWidget {
   const logincopy({Key? key}) : super(key: key);
@@ -29,32 +28,14 @@ class _logincopyState extends State<logincopy>
   late String Password;
   bool _isObscure = true;
   bool animationornot = false;
-  bool loginfail;
+
+  //var buttnenable = AnimationController();
   final _formKey = GlobalKey<FormState>();
 
   void ontapfunction() {
     _createuser();
   }
 
-  /*Future<void> login() async{
-    final  formState = _formkey.currentState;
-    if(formState.validate()){
-      formState.save();
-      try{
-
-        final FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _username, password: _password)).user;
-        if(!user.uid.isEmpty()){
-         Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
-        }else{
-         setState((){
-           loginfail = true; //loginfail is bool
-          });
-        }
-
-      }catch(e){
-        print(e.message);
-      }
-    }*/
   Future<void> _createuser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -62,7 +43,7 @@ class _logincopyState extends State<logincopy>
       if (userCredential.user!.uid.isNotEmpty) {
       } else {
         setState(() {
-          loginfail = true; //loginfail is bool
+          // loginfail = true; //loginfail is bool
         });
       }
     } on FirebaseAuthException catch (e) {
@@ -121,10 +102,10 @@ class _logincopyState extends State<logincopy>
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: TextFormField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: "Email id",
                       hintText: "youremail@email.com",
-                      errorText: loginfail ? "incorrect email id" : null,
+                      // errorText: loginfail ? "incorrect email id" : null,
                     ),
                     // The validator receives the text that the user has entered.
                     onChanged: (value) {
@@ -149,6 +130,7 @@ class _logincopyState extends State<logincopy>
                     obscureText: _isObscure,
                     decoration: InputDecoration(
                         labelText: 'Password',
+                        //errorText: loginfail ? "incorrect email id" : null,
                         suffixIcon: IconButton(
                             icon: Icon(_isObscure
                                 ? Icons.visibility
@@ -174,72 +156,92 @@ class _logincopyState extends State<logincopy>
                   ),
                 ),
                 SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("FP"),
+                    ],
+                  ),
+                ),
+                /* Container(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Row(
+                      //   mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Forgot Password?"),
+                        GestureDetector(
+                          onTap: () {
+                            print("clicked on forgot password");
+                          },
+                        )
+                      ],
+                    )),*/
+                /*Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Forgot Password?"),
+                      GestureDetector(
+                        onTap: () {},
+                      )
+                    ],
+                  ),
+                ),*/
+                SizedBox(
                   height: 40,
                 ),
                 Container(
-                  child: Center(
-                    child: AnimatedButton(
-                      height: 40,
-                      width: 370,
-                      text: 'SUBMIT',
-                      isReverse: true,
-                      enable: true,
-                      selectedTextColor: Colors.blue,
-                      transitionType: TransitionType.CENTER_ROUNDER,
-                      textStyle: TextStyle(fontWeight: FontWeight.bold),
-                      backgroundColor: Colors.blue,
-                      borderColor: Colors.blueAccent,
-                      borderRadius: 50,
-                      borderWidth: 2,
-                      onPress: () {
-                        if (_formKey.currentState!.validate()) {
-                          animationornot = true;
-                          ontapfunction();
-                        } else {
-                          animationornot = false;
-                        }
-                      },
-                    ),
+                    child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        animationornot = true;
+                        ontapfunction();
+                      } else {
+                        animationornot = false;
+                      }
+                    },
+                    child: Text("Sign in"),
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        minimumSize: Size(350, 40)),
                   ),
-                ),
+                )),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
-                Center(
-                  child: Container(
-                    height: 40,
-                    width: 370,
-                    color: Colors.transparent,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.blue,
-                              style: BorderStyle.solid,
-                              width: 1),
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: ImageIcon(
-                              AssetImage('logos/gl.png'),
-                              color: Colors.blue,
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              '     Log in with google',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue),
-                            ),
-                          )
-                        ],
+                Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: ImageIcon(
+                        AssetImage('logos/gl.png'),
+                        color: Colors.blue,
                       ),
-                    ),
-                  ),
-                )
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: Size(350, 40),
+                          side: BorderSide(width: 1, color: Colors.blue),
+                          primary: Colors.transparent,
+                          onSurface: Colors.transparent,
+                          shadowColor: Colors.grey.shade50),
+                      label: Text(
+                        "Sign in with google",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    )
+                  ],
+                )),
               ],
             ),
           )
